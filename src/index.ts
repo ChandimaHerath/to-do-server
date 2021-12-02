@@ -21,6 +21,31 @@ const listSchema = new mongoose.Schema({
 
 const List =  mongoose.model('List', listSchema);  
 
+//get all data
+app.get('/', (req,res)=>{
+    const getAll  = new Promise( (resolve,reject)=>{
+
+      try
+      { 
+         const lists =List.find();
+         resolve(lists);
+      }
+    
+      catch(err)
+      {
+         reject(err);
+      }    
+      
+     });
+  
+    getAll
+    .then(lists=>res.send(lists))
+    .catch(err=>console.log(err));
+});
+
+
+
+//listning to the server
 app.listen(3000, ():void =>{
     console.log('Listing on server..!');
 });
