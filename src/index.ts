@@ -51,7 +51,7 @@ app.post('/post', (req,res)=>{
        res.status(400).send('To-do title and Date Required..!');
        return;
     }  
-    const Add  = new Promise( (resolve,reject)=>{
+    const Add  = new Promise( (resolve,reject)=>{ 
 
     try
     { 
@@ -71,11 +71,33 @@ app.post('/post', (req,res)=>{
       reject(err);
 
     }        
-});
+  
+    });
    
-//set status code and the result
+  //set status code and the result
   Add.then(item =>res.send(item))
      .catch(item => console.log(item))
+});
+
+//delete item
+app.delete('/del/:id', (req,res)=>{
+    const Delete  = new Promise( (resolve,reject)=>{
+      try
+      {   
+          const id =req.params.id;
+          const item = List.deleteOne({id:id});
+          resolve(item)
+      }
+     
+      catch(err)
+      {
+          reject(err);
+      }    
+
+    });
+
+      Delete.then(item=>{res.send(item)})
+            .catch(err=>{res.status(404).send(err)});
 });
 
 //listning to the server
