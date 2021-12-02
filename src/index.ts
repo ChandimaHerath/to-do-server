@@ -35,7 +35,7 @@ app.get('/', (req,res)=>{
       {
          reject(err);
       }    
-      
+
      });
   
     getAll
@@ -43,7 +43,40 @@ app.get('/', (req,res)=>{
     .catch(err=>console.log(err));
 });
 
+//post item
+app.post('/post', (req,res)=>{
+   
+    if (!req.body.title){
+       console.log("error")
+       res.status(400).send('To-do title and Date Required..!');
+       return;
+    }  
+    const Add  = new Promise( (resolve,reject)=>{
 
+    try
+    { 
+      const list = new List({
+      title : req.body.title,
+      isActive: req.body.isActive,
+      expireDate: req.body.expireDate
+    
+      });
+
+      const item = list.save();
+      resolve(item);
+    }
+ 
+    catch(err)
+    {
+      reject(err);
+
+    }        
+});
+   
+//set status code and the result
+  Add.then(item =>res.send(item))
+     .catch(item => console.log(item))
+});
 
 //listning to the server
 app.listen(3000, ():void =>{
