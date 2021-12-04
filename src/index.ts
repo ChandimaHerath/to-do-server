@@ -127,9 +127,7 @@ app.patch('/put/:id', (req,res)=>{
       
     });
     
-    Update.then((item)=>{
-      console.log('item :>> ', item);
-      res.send(item)})
+    Update.then((item)=>{res.send(item)})
           .catch(err=>{res.status(404).send(err)});
 });
 
