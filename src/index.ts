@@ -107,6 +107,34 @@ app.delete('/del/:id', (req,res)=>{
             .catch(err=>{res.status(404).send(err)});
 });
 
+//update the complete property
+app.patch('/put/:id', (req,res)=>{
+  console.log('requeat',req.params.id);
+  const Update  = new Promise( (resolve,reject)=>{
+
+    try
+    {   
+        const id =req.params.id;
+        const item = List.findOneAndUpdate({id:id},{isCompleted:true})
+        resolve(item)
+        
+      }
+      
+      catch(err)
+      {
+        reject(err);
+      }    
+      
+    });
+    
+    Update.then((item)=>{
+      console.log('item :>> ', item);
+      res.send(item)})
+          .catch(err=>{res.status(404).send(err)});
+});
+
+
+
 //listning to the server
 app.listen(3000, ():void =>{
     console.log('Listing on server..!');
