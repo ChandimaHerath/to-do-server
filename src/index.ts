@@ -1,10 +1,13 @@
 import express  from 'express';
 import mongoose from 'mongoose';
+const cors = require('cors');
+
 
 const dbURL = 'mongodb+srv://chandima:chandima123@cluster0.gtenz.mongodb.net/todoDB?retryWrites=true&w=majority'
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 //connecting database
 mongoose.connect(dbURL)
@@ -14,8 +17,10 @@ mongoose.connect(dbURL)
 //DB Schema
 const listSchema = new mongoose.Schema({
     title: String,
-    isActive: Boolean,
-    expireDate: Date
+    id: Number,
+    expireDate: Number,
+    createdDate:Number,
+    isCompleted:Boolean
   
   });
 
@@ -57,8 +62,10 @@ app.post('/post', (req,res)=>{
     { 
       const list = new List({
       title : req.body.title,
-      isActive: req.body.isActive,
-      expireDate: req.body.expireDate
+      id:req.body.id,
+      createdDate:req.body.createdDate,
+      expireDate: req.body.expireDate,
+      isCompleted: false
     
       });
 
