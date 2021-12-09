@@ -44,18 +44,16 @@ app.get('/', async (req,res)=>{
   });
   
    
-
 //post item
-app.post('/post', (req,res)=>{
+app.post('/post', async (req,res)=>{
    
-    if (!req.body.title){
-       console.log("error")
+    if(!req.body.title){
+
        res.status(400).send('To-do title and Date Required..!');
        return;
     }  
-    const Add  = new Promise( (resolve,reject)=>{ 
-
-    try
+    
+   try
     { 
       const list = new List({
       title : req.body.title,
@@ -66,22 +64,17 @@ app.post('/post', (req,res)=>{
     
       });
 
-      const item = list.save();
-      resolve(item);
+      const item = await list.save();
+      res.send(item);
     }
  
-    catch(err)
+   catch(err)
     {
-      reject(err);
-
+      res.set(404).send(err);
     }        
-  
-    });
-   
-  //set status code and the result
-  Add.then(item =>res.send(item))
-     .catch(item => console.log(item))
-});
+     
+
+  });
 
 //delete item
 app.delete('/del/:id', (req,res)=>{
