@@ -119,4 +119,4 @@ app.patch('/put/:id', async (req,res)=>{
 //listning to the server
 app.listen(3000, ():void =>{
     console.log('Listing on server..!');
-});
+}); 
