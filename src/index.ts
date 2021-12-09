@@ -1,5 +1,6 @@
 import express  from 'express';
 import mongoose from 'mongoose';
+
 const cors = require('cors');
 
 
@@ -27,26 +28,22 @@ const listSchema = new mongoose.Schema({
 const List =  mongoose.model('List', listSchema);  
 
 //get all data
-app.get('/', (req,res)=>{
-    const getAll  = new Promise( (resolve,reject)=>{
+app.get('/', async (req,res)=>{
 
-      try
-      { 
-         const lists =List.find();
-         resolve(lists);
-      }
-    
-      catch(err)
-      {
-         reject(err);
-      }    
-
-     });
+  try
+  { 
+    const lists = await List.find();
+    res.send(lists);
+  }
   
-    getAll
-    .then(lists=>res.send(lists))
-    .catch(err=>console.log(err));
-});
+  catch(err)
+  {
+    res.set(404).send(err);
+  }  
+       
+  });
+  
+   
 
 //post item
 app.post('/post', (req,res)=>{
