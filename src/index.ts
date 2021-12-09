@@ -70,56 +70,49 @@ app.post('/post', async (req,res)=>{
  
    catch(err)
     {
-      res.set(404).send(err);
+      res.status(404).send(err);
     }        
      
-
   });
 
 //delete item
-app.delete('/del/:id', (req,res)=>{
-    const Delete  = new Promise( (resolve,reject)=>{
+app.delete('/del/:id', async(req,res)=>{
+    
       try
       {   
           const id =req.params.id;
-          const item = List.deleteOne({id:id});
-          resolve(item)
+          const item = await List.deleteOne({id:id});
+          res.send(item);
       }
      
       catch(err)
       {
-          reject(err);
+          res.status(404).send(err);
       }    
 
     });
 
-      Delete.then(item=>{res.send(item)})
-            .catch(err=>{res.status(404).send(err)});
-});
+     
 
 //update the complete property
-app.patch('/put/:id', (req,res)=>{
-  console.log('requeat',req.params.id);
-  const Update  = new Promise( (resolve,reject)=>{
+app.patch('/put/:id', async (req,res)=>{
 
     try
     {   
         const id =req.params.id;
-        const item = List.findOneAndUpdate({id:id},{isCompleted:true})
-        resolve(item)
+        const item = await List.findOneAndUpdate({id:id},{isCompleted:true})
+        res.send(item);
         
-      }
+    }
       
-      catch(err)
-      {
-        reject(err);
-      }    
-      
-    });
+    catch(err)
     
-    Update.then((item)=>{res.send(item)})
-          .catch(err=>{res.status(404).send(err)});
-});
+    {
+       res.status(404).send(err);
+
+    }    
+    
+  });
 
 
 
